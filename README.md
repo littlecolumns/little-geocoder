@@ -8,7 +8,7 @@ Geocoding is a pain in the neck. If you're just looking at US addresses, though,
 
 ![](screenshots/main.png)
 
-Simple Visual Geocoder (SVGeocoder!) takes in CSV files and geocodes them with the [Census Bureau's Batch Geocoding service](https://www.documentcloud.org/documents/3894452-Census-Geocoding-Services-API.html) - **all without knowing Python or using the command line!**
+Simple Visual Geocoder takes in CSV files and geocodes them with the [Census Bureau's Batch Geocoding service](https://www.documentcloud.org/documents/3894452-Census-Geocoding-Services-API.html) - **all without knowing Python or using the command line!**
 
 It's more or less a very thin later on top of the LA Times' [Census Batch Geocoder](https://github.com/datadesk/python-censusbatchgeocoder), with the addition of a few simple tools to help you break out street addresses and city names.
 
@@ -48,7 +48,7 @@ The Census Bureau requires you do split `address`, `city`, `state`, and `zipcode
 
 Oh no! Do we need to split it apart? Do we need to fight against that `Apt 3C`? No! No! We're too lazy for that!
 
-SVGeocoder has built-in data cleaning tools called **Adjustments** to make splitting long addresses up easy. You just pick an adjustment from a dropdown and it'll clip out the part you're interested in.
+Simple Visual Geocoder has built-in data cleaning tools called **Adjustments** to make splitting long addresses up easy. You just pick an adjustment from a dropdown and it'll clip out the part you're interested in.
 
 ||540 NW Ave, Townsville, NC|101 Rock St, Apt 3, Guitar City, NV |Use as|
 |---|---|---|---|
