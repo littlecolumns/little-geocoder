@@ -29,6 +29,10 @@ You can download the latest release [from GitHub](https://github.com/jsoma/simpl
 5. A brand-new CSV file shows up, full of latitudes and longitudes!
 6. 🎉🎉🎉
 
+### How long does it take?
+
+It's a mystery to me, but it took a little under ten minutes for the 3000-row `schools.csv` file.
+
 ### Cleaning your data with "Adjustments"
 
 The Census Bureau requires you do split `address`, `city`, `state`, and `zipcode` into separate fields. But what if your addresses aren all in one column and  look like this?
@@ -54,7 +58,7 @@ But it shouldn't be tough to make it work on PCs, too.
 
 ### Help! I told it to geocode and it froze up!
 
-It didn't freeze, it's just busy geocoding for you! It should finish eventually. Just be patient. Very, very patient.
+It didn't freeze, it's just busy geocoding for you! It should finish eventually. Just be patient. It takes me about 10 minutes to run 3000.
 
 _At some point it would be nice to implement threads so that this doesn't happen._
 
