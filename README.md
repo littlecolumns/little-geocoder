@@ -50,11 +50,11 @@ You can also pluck out the states from the end by saying "Split it up by commas 
 
 There are options to use this on both commas as well as newlines/linebreaks.
 
+### What platforms does it work on?
+
+OS X and Windows, at the very least. It might work on Linux if you build it yourself.
+
 ## Troubleshooting
-
-### I think maybe it only works on OS X?
-
-But it shouldn't be tough to make it work on PCs, too.
 
 ### Help! I told it to geocode and it froze up!
 
