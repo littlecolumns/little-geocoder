@@ -240,5 +240,6 @@ class VisualCensusGeocoder(QWidget):
 if __name__ == '__main__':
     
     app = QApplication(sys.argv)
+    # app.setStyle(QStyleFactory.create('macintosh'))
     ex = VisualCensusGeocoder()
     sys.exit(app.exec_())

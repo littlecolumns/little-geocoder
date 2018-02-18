@@ -14,7 +14,7 @@ pandas==0.22.0
 parsedatetime==2.4
 pefile==2017.11.5
 PyInstaller==3.3.1
-pypiwin32==220
+pypiwin32==220; sys_platform == 'nt'
 PyQt5==5.10
 python-dateutil==2.6.1
 python-slugify==1.2.4
