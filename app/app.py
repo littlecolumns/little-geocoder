@@ -7,6 +7,7 @@ from PyQt5.QtWidgets import (QMainWindow, QTextEdit,
     QAction, QFileDialog, QApplication, QWidget, QLabel, 
     QComboBox, QApplication, QHBoxLayout, QVBoxLayout, QPushButton,
     QTableWidget,QTableWidgetItem, QGridLayout)
+import PyQt5.QtGui
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt
 import sys
@@ -14,7 +15,7 @@ import os
 import pandas as pd
 from collections import OrderedDict
 import censusbatchgeocoder
-import traceback
+import platform
 
 ROW_COUNT = 20
 
@@ -31,19 +32,26 @@ ADJUSTMENTS["Newline split: third"] = lambda x: x.split("\n")[2]
 ADJUSTMENTS["Newline split: second-to-last"] = lambda x: x.split("\n")[-2]
 ADJUSTMENTS["Newline split: last"] = lambda x: x.split("\n")[-1]
 
+def resource_path(path):
+    if hasattr(sys, "_MEIPASS"):
+        return os.path.join(sys._MEIPASS, path)
+    else:
+        current_dir = os.path.dirname(os.path.realpath(__file__))
+        return os.path.join(current_dir, path)
+
 class VisualCensusGeocoder(QWidget):
     
     def __init__(self):
         super().__init__()
         
         self.filename = None
+        self.setWindowIcon(QIcon(resource_path("worldwide.png")))
 
         self.initUI()
         
         
     def initUI(self):      
         vbox = QVBoxLayout()
-
         # File picker
 
         file_picker = QPushButton("Browse...")
@@ -145,16 +153,29 @@ class VisualCensusGeocoder(QWidget):
     def doGeocode(self):
         self.pickTargetFilename()
 
-        if self.target_filename:
-            for_geocoding = self.df.fillna("").apply(self.prepareForGeocoding, axis=1)
-            results = censusbatchgeocoder.geocode(for_geocoding)
-            results_df = pd.DataFrame(results)
-            self.df.merge(results_df, 
-                left_index=True, 
-                right_on='id', 
-                suffixes=("","_geo")
-            ).to_csv(self.target_filename)
-            os.system("open -R \"%s\"" % self.target_filename)
+        if not self.target_filename:
+            return
+
+        prepared_data = self.df.fillna("").apply(self.prepareForGeocoding, axis=1)
+        results = censusbatchgeocoder.geocode(prepared_data)
+
+        # Combine geodata with original dataframe, same results
+        results_df = pd.DataFrame(results)
+        self.df.merge(results_df, 
+            left_index=True, 
+            right_on='id', 
+            suffixes=("","_geo")
+        ).to_csv(self.target_filename)
+
+        # Reveal processed data in the file browser
+        if platform.system() == "Windows":
+            os.system("explorer /select,\"%s\"" % os.path.normpath(self.target_filename))
+        else:
+            # Try/except to make it probably work in Linux, too
+            try:
+                os.system("open -R \"%s\"" % self.target_filename)
+            except:
+                pass
 
     def updateColumn(self, field):
         colnum = field['column']

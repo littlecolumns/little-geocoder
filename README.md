@@ -1,6 +1,6 @@
 # Simple Visual Geocoder
 
-[Download from GitHub](https://github.com/jsoma/simple-visual-geocoder/releases/download/v0.1/SimpleVisualGeocoder.zip)
+[Download the latest release](https://github.com/jsoma/simple-visual-geocoder/releases/latest)
 
 ## Batch geocode CSV files _on your own machine_ using the Census API
 
@@ -18,7 +18,7 @@ As a fun bonus, you don't need to upload your data into 🌪 THE CLOUD 🌪.
 
 ### Downloading
 
-You can download the latest release [from GitHub](https://github.com/jsoma/simple-visual-geocoder/releases/download/v0.1/SimpleVisualGeocoder.zip).
+You can download the latest release [from GitHub](https://github.com/jsoma/simple-visual-geocoder/releases/latest) - just pick the one that's appropriate for your system.
 
 ### Simple How-To
 
@@ -57,3 +57,11 @@ But it shouldn't be tough to make it work on PCs, too.
 It didn't freeze, it's just busy geocoding for you! It should finish eventually. Just be patient. Very, very patient.
 
 _At some point it would be nice to implement threads so that this doesn't happen._
+
+### Help! I'm building this myself and it's HUGE!
+
+Anaconda on Windows installs versions of numpy & friends that include something called MKL. MKL is big. Anaconda doesn't play nice with `venv` so the only way I could figure out to get around it was to just uninstall Anaconda and install the normal Python.org version instead.	
+
+## Attribution
+
+Icon made by [Smashicons](https://www.flaticon.com/authors/smashicons) from [www.flaticon.com](https://www.flaticon.com/) and is licensed by [CC 3.0 BY](http://creativecommons.org/licenses/by/3.0/)
