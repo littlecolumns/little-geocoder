@@ -6,7 +6,7 @@ from  parsedatetime.pdt_locales import (
 from PyQt5.QtWidgets import (QMainWindow, QTextEdit, 
     QAction, QFileDialog, QApplication, QWidget, QLabel, 
     QComboBox, QApplication, QHBoxLayout, QVBoxLayout, QPushButton,
-    QTableWidget,QTableWidgetItem, QGridLayout)
+    QTableWidget,QTableWidgetItem, QGridLayout, QStyleFactory)
 import PyQt5.QtGui
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt
@@ -238,8 +238,8 @@ class VisualCensusGeocoder(QWidget):
         
                 
 if __name__ == '__main__':
-    
     app = QApplication(sys.argv)
-    # app.setStyle(QStyleFactory.create('macintosh'))
+    if 'windowsvista' in QStyleFactory.keys():
+        app.setStyle(QStyleFactory.create('windowsvista'))
     ex = VisualCensusGeocoder()
     sys.exit(app.exec_())
