@@ -2,9 +2,9 @@
 
 [Download the latest release](https://github.com/jsoma/simple-visual-geocoder/releases/latest)
 
-## Batch geocode CSV files _on your own machine_ using the Census API
+## Batch geocode CSV files in a nice visual interface
 
-Geocoding is a pain in the neck. If you're just looking at US addresses, though, Simple Visual Geocoder is here to help! **Latitude and longitude are on the way.**
+Geocoding is a pain in the neck. If you're just looking at US addresses, though, Simple Visual Geocoder is here to help! **Latitude and longitude, just for you.**
 
 ![](screenshots/main.png)
 
@@ -12,7 +12,7 @@ Simple Visual Geocoder takes in CSV files and geocodes them with the [Census Bur
 
 It's more or less a very thin later on top of the LA Times' [Census Batch Geocoder](https://github.com/datadesk/python-censusbatchgeocoder), with the addition of a few simple tools to help you break out street addresses and city names.
 
-As a fun bonus, you don't need to upload your data into 🌪 THE CLOUD 🌪.
+As a fun bonus, you don't need to upload your data into ✨🌪✨ The Cloud ✨🌪✨ (well, the addresses go to the Census Bureau, sure, but not the rest of it).
 
 ## Using Simple Visual Geocoder
 
@@ -25,13 +25,13 @@ You can download the latest release [from GitHub](https://github.com/jsoma/simpl
 1. Click `Browse...` to select your file
 2. Pick your columns that contain address, city, state and zipcode (state and zipcode are optional)
 3. Click the `Geocode` button and pick a destination for your new geocoded CSV
-4. Wait and wait and wait (don't worry, it isn't frozen!)
+4. Wait and wait and wait
 5. A brand-new CSV file shows up, full of latitudes and longitudes!
 6. 🎉🎉🎉
 
 ### How long does it take?
 
-It's a mystery to me, but it took a little under ten minutes for the 3000-row `schools.csv` file.
+It's a mystery to me, but it took a little under ten minutes for the 3000-row `schools.csv` file, and a little over 1 minute for the 30-row `schools_sample.csv`.
 
 ### What platforms does it work on?
 
@@ -69,12 +69,6 @@ Have another kind of adjustment you'd like to see? [Create an issue](https://git
 Try to right-click (control+click) and select **Open**.
 
 You can also go into `System Preferences > Security & Privacy` and change **Allow apps downloaded from:** to be `App Store and identified developers`. You might need to click the lock on the bottom-left corner of the window before it'll let you change anything.
-
-### Help! I told it to geocode and it froze up!
-
-It didn't freeze, it's just busy geocoding for you! It should finish eventually. Just be patient. It takes me about 10 minutes to run 3000.
-
-_At some point it would be nice to implement threads so that this doesn't happen._
 
 ### Help! I'm building this app on my own and it's HUGE!
 

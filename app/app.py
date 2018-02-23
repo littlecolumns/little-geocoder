@@ -9,9 +9,9 @@ from PyQt5.QtWidgets import (QMainWindow, QTextEdit,
     QTableWidget,QTableWidgetItem, QGridLayout, QStyleFactory)
 import PyQt5.QtGui
 from PyQt5.QtGui import QIcon
-from PyQt5.QtCore import Qt
-import sys
-import os
+from PyQt5.QtCore import (Qt, QObject, QRunnable, pyqtSignal, 
+    pyqtSlot, QThreadPool, QTimer)
+import os, traceback, sys, signal
 import pandas as pd
 from collections import OrderedDict
 import censusbatchgeocoder
@@ -39,26 +39,56 @@ def resource_path(path):
         current_dir = os.path.dirname(os.path.realpath(__file__))
         return os.path.join(current_dir, path)
 
+class WorkerSignals(QObject):
+    finished = pyqtSignal()
+    error = pyqtSignal(tuple)
+    result = pyqtSignal(object)
+
+class GeocodeWorker(QRunnable):
+    def __init__(self, data):
+        super(GeocodeWorker, self).__init__()
+
+        self.data = data
+        self.signals = WorkerSignals()
+
+    @pyqtSlot()
+    def run(self):
+        try:
+            results = censusbatchgeocoder.geocode(self.data)
+        except:
+            traceback.print_exc()
+            exctype, value = sys.exc_info()[:2]
+            self.signals.error.emit((exctype, value, traceback.format_exc()))
+        else:
+            self.signals.result.emit(results) # Return result
+        finally:
+            self.signals.finished.emit() # Done
+
 class VisualCensusGeocoder(QWidget):
     
     def __init__(self):
         super().__init__()
         
+        self.threadpool = QThreadPool()
         self.filename = None
+
+        self.wait_timer = QTimer()
+        self.wait_timer.setInterval(1000)
+        self.wait_timer.timeout.connect(self.geoWaitTick)
+
         self.setWindowIcon(QIcon(resource_path("worldwide.png")))
 
         self.initUI()
-        
-        
+
     def initUI(self):      
         vbox = QVBoxLayout()
         # File picker
 
-        file_picker = QPushButton("Browse...")
-        file_picker.clicked.connect(self.showFilePicker)
+        self.file_picker = QPushButton("Browse...")
+        self.file_picker.clicked.connect(self.showFilePicker)
 
         row = QHBoxLayout()
-        row.addWidget(file_picker)
+        row.addWidget(self.file_picker)
         self.file_label = QLabel("Please select a CSV file to geocode")
         row.addWidget(self.file_label)
 
@@ -115,11 +145,11 @@ class VisualCensusGeocoder(QWidget):
         vbox.addLayout(row)
 
         # Geocode button
-        geo_button = QPushButton("Geocode")
-        geo_button.clicked.connect(self.doGeocode)
+        self.geo_button = QPushButton("Geocode")
+        self.geo_button.clicked.connect(self.startGeocode)
 
         row = QHBoxLayout()
-        row.addWidget(geo_button)
+        row.addWidget(self.geo_button)
 
         vbox.addLayout(row)
 
@@ -150,15 +180,46 @@ class VisualCensusGeocoder(QWidget):
                 data[key] = ""
         return data
 
-    def doGeocode(self):
+    def formEnabled(self, state):
+        self.file_picker.setEnabled(state)
+        self.geo_button.setEnabled(state)
+        for key in self.field_names:
+            self.fields[key]['combo'].setEnabled(state)
+            self.fields[key]['adjustment'].setEnabled(state)
+
+    def geoWaitStart(self):
+        self.formEnabled(False)
+        self.tick_counter = 0
+        self.wait_timer.start()
+        
+    def geoWaitEnd(self):
+        self.wait_timer.stop()
+        self.geo_button.setText("Geocode")
+        self.formEnabled(True)
+
+    def geoWaitTick(self):
+        self.tick_counter = self.tick_counter + 1
+        timestring = "%im%is" % (self.tick_counter / 60, self.tick_counter % 60)
+        self.geo_button.setText(
+            "Processing %s rows: %s" % (len(self.df), timestring)
+        )
+
+    def startGeocode(self):
         self.pickTargetFilename()
 
         if not self.target_filename:
             return
 
-        prepared_data = self.df.fillna("").apply(self.prepareForGeocoding, axis=1)
-        results = censusbatchgeocoder.geocode(prepared_data)
+        self.geoWaitStart()
 
+        prepared_data = self.df.fillna("").apply(self.prepareForGeocoding, axis=1)
+
+        worker = GeocodeWorker(prepared_data)
+        # Hook into signals
+        worker.signals.result.connect(self.processGeocodeResult)
+        self.threadpool.start(worker)
+
+    def processGeocodeResult(self, results):
         # Combine geodata with original dataframe, same results
         results_df = pd.DataFrame(results)
         self.df.merge(results_df, 
@@ -176,6 +237,8 @@ class VisualCensusGeocoder(QWidget):
                 os.system("open -R \"%s\"" % self.target_filename)
             except:
                 pass
+
+        self.geoWaitEnd()
 
     def updateColumn(self, field):
         colnum = field['column']
@@ -197,7 +260,8 @@ class VisualCensusGeocoder(QWidget):
             self.updateColumn(self.fields[key])
 
     def updateComboBoxes(self):
-        options = ['-'] + list(self.df.columns.values) + ['custom', 'none']
+        # options = ['-'] + list(self.df.columns.values) + ['custom', 'none']
+        options = ['-'] + list(self.df.columns.values)
         for index, key in enumerate(self.field_names):
             combo = self.fields[key]['combo']
             combo.clear()
@@ -238,6 +302,8 @@ class VisualCensusGeocoder(QWidget):
         
                 
 if __name__ == '__main__':
+    signal.signal(signal.SIGINT, signal.SIG_DFL)
+
     app = QApplication(sys.argv)
     if 'windowsvista' in QStyleFactory.keys():
         app.setStyle(QStyleFactory.create('windowsvista'))
