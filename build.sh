@@ -2,7 +2,7 @@
 
 pyinstaller \
 	--log-level=DEBUG \
-	--name "Simple Visual Geocoder" \
+	--name "Little Geocoder" \
 	--windowed \
   --add-binary env/lib/python3.6/site-packages/PyQt5/Qt/plugins/styles/libqmacstyle.dylib:plugins/styles \
   --add-data app/worldwide.png:. \
@@ -11,10 +11,10 @@ pyinstaller \
 	--onefile \
   --exclude-module scipy \
   --exclude-module matplotlib \
-  --osx-bundle-identifier "com.jonathansoma.visual-geocoder" \
+  --osx-bundle-identifier "com.littlecolumns.little-geocoder" \
 	-i icon/worldwide.icns \
 	app/app.py
 
-codesign -s "$CODESIGN_ID" "dist/Simple Visual Geocoder.app"
+codesign -s "$CODESIGN_ID" "dist/Little Geocoder.app"
 
-cd dist && zip -r "../release/SimpleVisualGeocoder.OSX.zip" "Simple Visual Geocoder.app"
+cd dist && zip -r "../release/LittleGeocoder.OSX.zip" "Little Geocoder.app"

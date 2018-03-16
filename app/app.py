@@ -64,7 +64,7 @@ class GeocodeWorker(QRunnable):
         finally:
             self.signals.finished.emit() # Done
 
-class VisualCensusGeocoder(QWidget):
+class LittleGeocoder(QWidget):
     
     def __init__(self):
         super().__init__()
@@ -156,7 +156,7 @@ class VisualCensusGeocoder(QWidget):
         self.setLayout(vbox)     
         
         self.setGeometry(300, 300, 750, 500)
-        self.setWindowTitle('Visual Census Geocoder')
+        self.setWindowTitle('Little Geocoder')
         self.table.setMinimumSectionSize = 150
         self.table.horizontalHeader().setSectionResizeMode(0, 1)
         self.table.horizontalHeader().setSectionResizeMode(1, 1)
@@ -307,5 +307,5 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     if 'windowsvista' in QStyleFactory.keys():
         app.setStyle(QStyleFactory.create('windowsvista'))
-    ex = VisualCensusGeocoder()
+    ex = LittleGeocoder()
     sys.exit(app.exec_())
