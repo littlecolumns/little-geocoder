@@ -1,5 +1,5 @@
 pyinstaller --log-level=DEBUG ^
---name "Simple Visual Geocoder" ^
+--name "Little Geocoder" ^
 --windowed ^
 --noconfirm ^
 --add-binary env/Lib/site-packages/PyQt5/Qt/plugins/platforms/qwindows.dll;platforms ^
@@ -12,4 +12,4 @@ pyinstaller --log-level=DEBUG ^
 --hidden-import="pandas._libs.tslibs.timedeltas" ^
 app/app.py
 
-python -c "import shutil;shutil.make_archive('release/SimpleVisualGeocoder.Win', 'zip', 'dist', 'Simple Visual Geocoder.exe')"
+python -c "import shutil;shutil.make_archive('release/LittleGeocoder.Win', 'zip', 'dist', 'Little Geocoder.exe')"
