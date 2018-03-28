@@ -4,7 +4,7 @@ pyinstaller \
 	--log-level=DEBUG \
 	--name "Little Geocoder" \
 	--windowed \
-  --add-binary env/lib/python3.6/site-packages/PyQt5/Qt/plugins/styles/libqmacstyle.dylib:plugins/styles \
+  --add-binary "`pipenv --venv`/lib/python3.6/site-packages/PyQt5/Qt/plugins/styles/libqmacstyle.dylib:PyQt5/Qt/plugins/styles" \
   --add-data app/worldwide.png:. \
 	--noconfirm \
   --hidden-import="pandas._libs.tslibs.timedeltas" \
