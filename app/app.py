@@ -5,7 +5,7 @@ from  parsedatetime.pdt_locales import (
 
 from PyQt5.QtWidgets import (QMainWindow, QTextEdit, 
     QAction, QFileDialog, QApplication, QWidget, QLabel, 
-    QComboBox, QApplication, QHBoxLayout, QVBoxLayout, QPushButton,
+    QComboBox, QHBoxLayout, QVBoxLayout, QPushButton,
     QTableWidget,QTableWidgetItem, QGridLayout, QStyleFactory)
 import PyQt5.QtGui
 from PyQt5.QtGui import QIcon
@@ -16,6 +16,8 @@ import pandas as pd
 from collections import OrderedDict
 import censusbatchgeocoder
 import platform
+
+QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
 
 ROW_COUNT = 20
 
