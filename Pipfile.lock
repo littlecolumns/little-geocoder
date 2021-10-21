@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "5689d214e142ec95d6dceebe7c48a7596d5311b61fffc72788ae18987972e689"
+            "sha256": "4d52500889fe7b589355ced6c563863bffb16ef6e1498c5ceb891b31543ce4f5"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -34,11 +34,11 @@
         },
         "babel": {
             "hashes": [
-                "sha256:8ce4cb6fdd4393edd323227cba3a077bceb2a6ce5201c902c65e730046f41f14",
-                "sha256:ad209a68d7162c4cff4b29cdebe3dec4cef75492df501b0049a9433c96ce6f80"
+                "sha256:ab49e12b91d937cd11f0b67cb259a57ab4ad2b59ac7a3b41d6c06c0ac5b0def9",
+                "sha256:bc0c176f9f6a994582230df350aa6e05ba2ebe4b3ac317eab29d9be5d2768da0"
             ],
             "index": "pypi",
-            "version": "==2.5.3"
+            "version": "==2.9.1"
         },
         "censusbatchgeocoder": {
             "hashes": [
@@ -176,12 +176,7 @@
             "version": "==3.3.1"
         },
         "pypiwin32": {
-            "hashes": [
-                "sha256:0cece5cf12ae7f4b32764db8a12cdb1a8b27184be681e0cfbd2996f0cc07376f",
-                "sha256:ceacd1b853fd9f521808d52554a1dcf1231d63c0e7409898ca6502e73e447b6b"
-            ],
-            "index": "pypi",
-            "markers": "sys_platform == 'win32'",
+            "sys_platform": "== 'win32'",
             "version": "==220"
         },
         "pyqt5": {
